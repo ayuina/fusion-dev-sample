@@ -8,7 +8,7 @@ var backendAppSvcName = '${prefix}-web'
 var backendAppSvcPlanName = '${prefix}-asp'
 
 
-resource laws 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: logAnalyticsName
   location: region
   properties:{
@@ -27,19 +27,19 @@ resource laws 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   }
 }
 
-resource ai 'Microsoft.Insights/components@2020-02-02' = {
+resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
   name: appInsightsName
   location: region
   kind: 'web'
   properties:{
     Application_Type: 'web'
-    WorkspaceResourceId: laws.id
+    WorkspaceResourceId: logAnalytics.id
     publicNetworkAccessForIngestion: 'Enabled'
     publicNetworkAccessForQuery: 'Enabled'
   }
 }
 
-resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
+resource apimanagement 'Microsoft.ApiManagement/service@2021-08-01' = {
   name: apiManagementName
   location: region
   sku:{
@@ -67,4 +67,25 @@ resource web 'Microsoft.Web/sites@2022-03-01' = {
   properties:{
     serverFarmId: asp.id
   }
+}
+
+resource appServiceSiteExtension 'Microsoft.Web/sites/siteextensions@2022-03-01' = {
+  parent: web
+  name: 'Microsoft.ApplicationInsights.AzureWebSites'
+  dependsOn: [
+    appinsights
+  ]
+}
+
+resource appsettings 'Microsoft.Web/sites/config@2022-03-01' = {
+  name: 'appsettings'
+  parent: web
+  dependsOn:[
+    appServiceSiteExtension
+  ]
+  properties: {
+    APPINSIGHTS_INSTRUMENTATIONKEY: appinsights.properties.InstrumentationKey
+    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights.properties.ConnectionString
+  }
+
 }
