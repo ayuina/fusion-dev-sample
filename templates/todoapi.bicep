@@ -25,7 +25,7 @@ resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
 module apiAppSvc 'todoapi-appservice.bicep' = {
   name: '${deployment().name}-appsvc'
   params: {
-    prefix: prefix
+    prefix: '${prefix}-appsvc'
     region: region
     adminName: adminName
     adminSqlPassword: akv.getSecret('adminPassword')
@@ -34,10 +34,10 @@ module apiAppSvc 'todoapi-appservice.bicep' = {
   dependsOn: [ appinsights ]
 }
 
-module todoapiVm 'todoapi-vm.bicep' = {
-  name: '${deployment().name}-vm'
+module todoapiVm 'todoapi-iaas.bicep' = {
+  name: '${deployment().name}-iaas'
   params: {
-    prefix: prefix
+    prefix: '${prefix}-iaas'
     region: region
     adminName: adminName
     adminPassword: akv.getSecret('adminPassword')

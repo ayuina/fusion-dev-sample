@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 
-param prefix string = 'fd1108e'
+param prefix string = 'fd1108g'
 param region string = 'japaneast'
 
 param adminName string = prefix
@@ -45,7 +45,7 @@ module todoapi 'todoapi.bicep' = {
   name: 'todo-${deploymentId}'
   scope: mainrg
   params:{
-    prefix: prefix
+    prefix: '${prefix}-todo'
     region: region
     adminName: adminName
     logAnalyticsWorkspaceId: laws.id
