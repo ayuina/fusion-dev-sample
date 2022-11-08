@@ -30,7 +30,6 @@ resource web 'Microsoft.Web/sites@2022-03-01' = {
   properties:{
     serverFarmId: asp.id
     clientAffinityEnabled: false
-    
     siteConfig: {
       netFrameworkVersion: 'v6.0'
       ftpsState: 'Disabled'
@@ -39,24 +38,23 @@ resource web 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-resource ext 'Microsoft.Web/sites/siteextensions@2022-03-01' = {
-  parent: web
-  name: 'Microsoft.ApplicationInsights.AzureWebSites'
-  dependsOn: [
-    appinsights
-  ]
-}
-
 resource appsettings 'Microsoft.Web/sites/config@2022-03-01' = {
   name: 'appsettings'
   parent: web
-  dependsOn:[
-    ext
-  ]
   properties: {
     APPINSIGHTS_INSTRUMENTATIONKEY: appinsights.properties.InstrumentationKey
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights.properties.ConnectionString
-    ApplicationInsightsAgent_EXTENSION_VERSION: '~2'
+    ApplicationInsightsAgent_EXTENSION_VERSION: '~3'
+    XDT_MicrosoftApplicationInsights_Mode: 'Recommended'
+    XDT_MicrosoftApplicationInsights_PreemptSdk: '1'
+  }
+}
+
+resource metadata 'Microsoft.Web/sites/config@2022-03-01' = {
+  name: 'metadata'
+  parent: web
+  properties: {
+    CURRENT_STACK: 'dotnet'
   }
 }
 
