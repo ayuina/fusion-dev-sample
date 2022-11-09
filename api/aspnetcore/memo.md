@@ -30,7 +30,7 @@ winget install --id RicoSuter.NSwagStudio --version 13.16.1.0
 
 ## build for app service
 dotnet publish -o ../publish/default 
-
+Compress-Archive -Path ..\publish\default\* ..\publish\default.zip
 
 ## build for linux vm
 dotnet publish -o ../publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
@@ -41,6 +41,12 @@ chmod 744 ./FusionDev.Samples.TodoApi
 sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi 
 export ASPNETCORE_URLS=http://*:80
 export ASPNETCORE_ENVIRONMENT=Development
+# app insights
+  "ApplicationInsights": {
+    "ConnectionString": "Copy connection string from Application Insights Resource Overview"
+  }
+
+  
 ./FusionDev.Samples.TodoApi 
 
 https://swimburger.net/blog/dotnet/how-to-run-aspnet-core-as-a-service-on-linux
