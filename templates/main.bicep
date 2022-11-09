@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 
-param prefix string = 'fd1108g'
+param prefix string = 'fd1109a'
 param region string = 'japaneast'
 
 param adminName string = prefix
@@ -8,12 +8,8 @@ param adminName string = prefix
 param adminPassword string
 param deploymentId string = '${dateTimeToEpoch(utcNow())}'
 
-var rgName = '${prefix}-rg'
-
-/////// base ////////////////////////////////
-
 resource mainrg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: rgName
+  name: '${prefix}-rg'
   location: region
 }
 
@@ -38,6 +34,7 @@ module apim 'apim.bicep' = {
   params: {
     prefix: prefix
     region: region
+    subnetid: core.outputs.apimSubnetId
   }
 }
 
@@ -47,6 +44,7 @@ module todoapi 'todoapi.bicep' = {
   params:{
     prefix: '${prefix}-todo'
     region: region
+    iaasSubnetId : core.outputs.apiIaasSubnetId
     adminName: adminName
     logAnalyticsWorkspaceId: laws.id
     keyVaultName: core.outputs.keyvaultName

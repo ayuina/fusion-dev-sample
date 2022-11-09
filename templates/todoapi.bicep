@@ -3,6 +3,7 @@ param region string
 param logAnalyticsWorkspaceId string
 param adminName string
 param keyVaultName string
+param iaasSubnetId string
 
 var appInsightsName = '${prefix}-ai'
 
@@ -39,6 +40,7 @@ module todoapiVm 'todoapi-iaas.bicep' = {
   params: {
     prefix: '${prefix}-iaas'
     region: region
+    subnetId: iaasSubnetId
     adminName: adminName
     adminPassword: akv.getSecret('adminPassword')
   }

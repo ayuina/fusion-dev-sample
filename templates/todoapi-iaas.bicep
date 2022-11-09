@@ -1,90 +1,16 @@
 param prefix string
 param region string
+param subnetId string
 param adminName string
 @secure()
 param adminPassword string
 
-var vnetName = '${prefix}-vnet'
-var vnetRange = '10.1.0.0/16'
-var apimSubnetName = 'apimSubnet'
-var apimSubnetRange = '10.1.0.0/24'
-var apiVmSubnetName = 'default'
-var apiVmSubnetRange = '10.1.1.0/24'
 var vmName = '${prefix}-vm'
 var nicName = '${vmName}-nic'
 var pipName = '${vmName}-pip'
 
-resource apimNsg 'Microsoft.Network/networkSecurityGroups@2022-05-01' ={
-  name: '${vnetName}-${apimSubnetName}-nsg'
-  location: region
-}
-
-resource apivmNsg 'Microsoft.Network/networkSecurityGroups@2022-05-01' ={
-  name: '${vnetName}-${apiVmSubnetName}-nsg'
-  location: region
-}
-
-resource allowHttpInbound 'Microsoft.Network/networkSecurityGroups/securityRules@2022-05-01' = {
-  parent: apivmNsg
-  name: 'AllowHttpFromVnet'
-  properties: {
-    access: 'Allow'
-    direction: 'Inbound'
-    priority: 1000
-    protocol: 'TCP'
-    sourceAddressPrefix: 'VirtualNetwork'
-    sourcePortRange: '*'
-    destinationAddressPrefix: '*'
-    destinationPortRanges: ['80', '443']
-  }
-}
-
-resource allowSshFromInternet 'Microsoft.Network/networkSecurityGroups/securityRules@2022-05-01' = {
-  parent: apivmNsg
-  name: 'AllowSshFromInternet'
-  properties: {
-    access: 'Allow'
-    direction: 'Inbound'
-    priority: 1100
-    protocol: 'TCP'
-    sourceAddressPrefix: 'Internet'
-    sourcePortRange: '*'
-    destinationAddressPrefix: '*'
-    destinationPortRanges: ['22']
-  }
-}
 
 
-resource vnet 'Microsoft.Network/virtualNetworks@2022-05-01' = {
-  name: vnetName
-  location: region
-  properties: {
-    addressSpace: {
-      addressPrefixes: [ vnetRange ]
-    }
-    subnets: [
-      {
-        name: apimSubnetName
-        properties:{
-          addressPrefix: apimSubnetRange
-          networkSecurityGroup: { id: apimNsg.id }
-        }
-      }
-      {
-        name: apiVmSubnetName
-        properties:{
-          addressPrefix: apiVmSubnetRange
-          networkSecurityGroup: { id: apivmNsg.id }
-        }
-      }
-    ]
-  }
-}
-
-resource apiVmSubnet 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' existing = {
-  name: apiVmSubnetName
-  parent: vnet
-}
 
 resource pip 'Microsoft.Network/publicIPAddresses@2022-05-01' = {
   name: pipName
@@ -109,7 +35,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2022-05-01' = {
             id: pip.id
           }
           subnet: {
-            id: apiVmSubnet.id
+            id: subnetId
           }
         }
       }
@@ -148,7 +74,4 @@ resource apivm 'Microsoft.Compute/virtualMachines@2022-08-01' = {
   }
 }
 
-output vnetName string = vnetName
-output apimSubnetName string = apimSubnetName
-output apiVmSubnetName string = apiVmSubnetName
 output vmHost string = pip.properties.dnsSettings.fqdn
