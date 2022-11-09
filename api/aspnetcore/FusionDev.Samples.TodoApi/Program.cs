@@ -17,6 +17,8 @@ builder.Services.AddSingleton(
         typeof(FusionDev.Samples.TodoApi.Controllers.ITodoController),
         new FusionDev.Samples.TodoApi.Controllers.TodoControllerImpl());
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
