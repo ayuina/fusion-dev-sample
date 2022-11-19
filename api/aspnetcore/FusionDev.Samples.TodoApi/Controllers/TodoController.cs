@@ -69,7 +69,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         /// <returns>successful operation</returns>
 
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TodoItem>> ListAllTodoItemAsync();
+        System.Threading.Tasks.Task<IEnumerable<TodoItem>> ListAllTodoItemAsync();
 
         /// <summary>
         /// Create Todo Item
@@ -88,7 +88,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
     [Microsoft.AspNetCore.Mvc.Route("todos/v1")]
 
-    public partial class TodoController : Microsoft.AspNetCore.Mvc.Controller
+    public partial class TodoController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private ITodoController _implementation;
 
@@ -147,7 +147,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
         /// </remarks>
         /// <returns>successful operation</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("")]
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TodoItem>> ListAllTodoItem()
+        public System.Threading.Tasks.Task<IEnumerable<TodoItem>> ListAllTodoItem()
         {
 
             return _implementation.ListAllTodoItemAsync();

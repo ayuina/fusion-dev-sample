@@ -32,14 +32,15 @@ namespace FusionDev.Samples.TodoApi.Controllers
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<TodoItem>> ListAllTodoItemAsync()
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<TodoItem> UpdateTodoByIdAsync(int id, TodoItem body)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TodoItem>> ListAllTodoItemAsync()
+        {
+            return Task.FromResult(context.TodoItems.AsEnumerable());
         }
     }
 }
