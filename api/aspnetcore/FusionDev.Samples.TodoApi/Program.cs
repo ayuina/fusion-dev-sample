@@ -13,6 +13,9 @@ builder.Services.AddDbContext<TodoContext>( opt => opt.UseInMemoryDatabase("Todo
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
+
+
+
 var app = builder.Build();
 
 using(var scope = app.Services.CreateScope())
@@ -22,9 +25,7 @@ using(var scope = app.Services.CreateScope())
     {
         tdc.Database.EnsureCreated();
         tdc.Init();
-
     }
-
 }
 
 // Configure the HTTP request pipeline.
