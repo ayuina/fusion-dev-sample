@@ -2,8 +2,16 @@ using System;
 
 namespace FusionDev.Samples.TodoApi.Controllers
 {
-    public class TodoControllerImpl : ITodoController
+    public class TodoControllerImpl2 : ITodoController
     {
+        IConfiguration config;
+        ILogger<TodoControllerImpl2> logger;
+        public TodoControllerImpl2(IConfiguration config, ILogger<TodoControllerImpl2> logger)
+        {
+            this.config = config;
+            this.logger = logger;
+        }
+
         public Task<TodoItem> CreateTodoItemAsync(TodoItem body)
         {
             throw new NotImplementedException();
@@ -21,8 +29,8 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         public Task<ICollection<TodoItem>> ListAllTodoItemAsync()
         {
+            logger.LogInformation("list todo items");
             var seed = new Random();
-            
             ICollection<TodoItem> ret = new List<TodoItem>() {
                 new TodoItem() { 
                     Id = 1, Title = "Task1", Status = "Active", Task = "経費を清算する", 
@@ -35,9 +43,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
                     UpdatedOn = DateTimeOffset.Now.AddDays(-seed.Next(1, 5)), Duedate = DateTime.Now.AddDays(seed.Next(1, 5)) }
                 };
 
-            return Task.FromResult(ret);
-            //return Task.FromResult(
-            //    );
+            return Task.FromResult(ret);        
         }
 
         public Task<TodoItem> UpdateTodoByIdAsync(int id, TodoItem body)
