@@ -31,7 +31,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         /// <returns>successful operation</returns>
 
-        System.Threading.Tasks.Task<TodoItem> GetTodoByIdAsync(int id);
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> GetTodoByIdAsync(int id);
 
         /// <summary>
         /// Update Todo Item
@@ -45,7 +45,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         /// <returns>successful operation</returns>
 
-        System.Threading.Tasks.Task<TodoItem> UpdateTodoByIdAsync(int id, TodoItem body);
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> UpdateTodoByIdAsync(int id, TodoItem body);
 
         /// <summary>
         /// Delete Todo Item
@@ -57,7 +57,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         /// <returns>successful operation</returns>
 
-        System.Threading.Tasks.Task<TodoItem> DeleteTodoByIdAsync(int id);
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> DeleteTodoByIdAsync(int id);
 
         /// <summary>
         /// List All Todo Item
@@ -69,7 +69,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         /// <returns>successful operation</returns>
 
-        System.Threading.Tasks.Task<IEnumerable<TodoItem>> ListAllTodoItemAsync();
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<IEnumerable<TodoItem>>> ListAllTodoItemAsync();
 
         /// <summary>
         /// Create Todo Item
@@ -81,7 +81,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         /// <returns>Todo created</returns>
 
-        System.Threading.Tasks.Task<TodoItem> CreateTodoItemAsync(TodoItem body);
+        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> CreateTodoItemAsync(TodoItem body);
 
     }
 
@@ -105,7 +105,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
         /// </remarks>
         /// <returns>successful operation</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("{id}")]
-        public System.Threading.Tasks.Task<TodoItem> GetTodoById(int id)
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> GetTodoById(int id)
         {
 
             return _implementation.GetTodoByIdAsync(id);
@@ -119,7 +119,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
         /// </remarks>
         /// <returns>successful operation</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("{id}")]
-        public System.Threading.Tasks.Task<TodoItem> UpdateTodoById(int id, [Microsoft.AspNetCore.Mvc.FromBody] TodoItem body)
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> UpdateTodoById(int id, [Microsoft.AspNetCore.Mvc.FromBody] TodoItem body)
         {
 
             return _implementation.UpdateTodoByIdAsync(id, body);
@@ -133,7 +133,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
         /// </remarks>
         /// <returns>successful operation</returns>
         [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("{id}")]
-        public System.Threading.Tasks.Task<TodoItem> DeleteTodoById(int id)
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> DeleteTodoById(int id)
         {
 
             return _implementation.DeleteTodoByIdAsync(id);
@@ -147,7 +147,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
         /// </remarks>
         /// <returns>successful operation</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("")]
-        public System.Threading.Tasks.Task<IEnumerable<TodoItem>> ListAllTodoItem()
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<IEnumerable<TodoItem>>> ListAllTodoItem()
         {
 
             return _implementation.ListAllTodoItemAsync();
@@ -161,7 +161,7 @@ namespace FusionDev.Samples.TodoApi.Controllers
         /// </remarks>
         /// <returns>Todo created</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("")]
-        public System.Threading.Tasks.Task<TodoItem> CreateTodoItem([Microsoft.AspNetCore.Mvc.FromBody] TodoItem body)
+        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<TodoItem>> CreateTodoItem([Microsoft.AspNetCore.Mvc.FromBody] TodoItem body)
         {
 
             return _implementation.CreateTodoItemAsync(body);

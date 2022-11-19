@@ -1,4 +1,9 @@
 using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FusionDev.Samples.TodoApi.Controllers
 {
@@ -17,30 +22,31 @@ namespace FusionDev.Samples.TodoApi.Controllers
             this.context = context;
         }
 
-        public Task<TodoItem> CreateTodoItemAsync(TodoItem body)
+        async Task<ActionResult<TodoItem>> ITodoController.GetTodoByIdAsync(int id)
+        {
+            var ret = await this.context.TodoItems.FindAsync(id);
+            return new OkObjectResult(ret);
+        }
+
+        Task<ActionResult<TodoItem>> ITodoController.UpdateTodoByIdAsync(int id, TodoItem body)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TodoItem> DeleteTodoByIdAsync(int id)
+        Task<ActionResult<TodoItem>> ITodoController.DeleteTodoByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TodoItem> GetTodoByIdAsync(int id)
+        async Task<ActionResult<IEnumerable<TodoItem>>> ITodoController.ListAllTodoItemAsync()
         {
-            throw new NotImplementedException();
+            var ret = await this.context.TodoItems.ToListAsync();
+            return new OkObjectResult(ret);
         }
 
-
-        public Task<TodoItem> UpdateTodoByIdAsync(int id, TodoItem body)
+        Task<ActionResult<TodoItem>> ITodoController.CreateTodoItemAsync(TodoItem body)
         {
             throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TodoItem>> ListAllTodoItemAsync()
-        {
-            return Task.FromResult(context.TodoItems.AsEnumerable());
         }
     }
 }

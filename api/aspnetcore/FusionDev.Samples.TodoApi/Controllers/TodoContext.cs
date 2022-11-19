@@ -12,5 +12,9 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         public DbSet<TodoItem> TodoItems { get; set; } = null!;
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TodoItem>().Ignore(c => c.AdditionalProperties);
+        }
     }
 }

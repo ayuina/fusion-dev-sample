@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddSingleton<ITodoController, TodoControllerImpl2>();
+builder.Services.AddScoped<ITodoController, TodoControllerImpl2>();
 
 builder.Services.AddDbContext<TodoContext>( opt => opt.UseInMemoryDatabase("TodoList"));
 
@@ -14,6 +14,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
 var app = builder.Build();
+
+using(var scope = app.Services.CreateScope())
+{
+    var tdc = scope.ServiceProvider.GetService<TodoContext>();
+    if(tdc != null)
+    {
+        tdc.Database.EnsureCreated();
+        tdc.Init();
+
+    }
+
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -27,5 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();

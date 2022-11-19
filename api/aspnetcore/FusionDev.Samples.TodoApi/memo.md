@@ -6,11 +6,15 @@ nswag openapi2cscontroller \
     /classname:Todo \
     /namespace:FusionDev.Samples.TodoApi.Controllers \
     /output:Controllers/TodoController.cs \
+    /UseActionResultType:true \
     /UseLiquidTemplates:true \
     /AspNetNamespace:"Microsoft.AspNetCore.Mvc" \
     /ControllerBaseClass:"Microsoft.AspNetCore.Mvc.ControllerBase" \
     /ControllerStyle:partial \
-    /ResponseArrayType:IEnumerable
+    /ResponseArrayType:IEnumerable 
+
+dotnet-aspnet-codegenerator controller -name TodoItemsController \
+  -async -api -m TodoItem -dc TodoContext -outDir Controllers
 ```
 
 Command: openapi2cscontroller
