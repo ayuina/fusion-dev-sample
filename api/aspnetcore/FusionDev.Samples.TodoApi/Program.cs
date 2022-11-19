@@ -1,4 +1,5 @@
 using FusionDev.Samples.TodoApi.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ITodoController, TodoControllerImpl2>();
 
+builder.Services.AddDbContext<TodoContext>( opt => opt.UseInMemoryDatabase("TodoList"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
