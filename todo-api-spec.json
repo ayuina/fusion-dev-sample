@@ -1,0 +1,281 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Todo API",
+        "description": "",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "https://fd1107-apim.azure-api.net/todos/v1"
+        }
+    ],
+    "paths": {
+        "/{id}": {
+            "get": {
+                "summary": "Get Todo Item",
+                "description": "指定したIDのTodoリストを1件取得します",
+                "operationId": "get-todo-by-id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoItem"
+                                },
+                                "example": {
+                                    "id": 0,
+                                    "title": "string",
+                                    "task": "string",
+                                    "status": "string",
+                                    "duedate": "2022-07-21",
+                                    "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Todo Item",
+                "description": "指定したIDのTodoリストを1件更新します",
+                "operationId": "update-todo-by-id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoItem"
+                            },
+                            "example": {
+                                "id": 0,
+                                "title": "string",
+                                "task": "string",
+                                "status": "string",
+                                "duedate": "2022-07-21",
+                                "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoItem"
+                                },
+                                "example": {
+                                    "id": 0,
+                                    "title": "string",
+                                    "task": "string",
+                                    "status": "string",
+                                    "duedate": "2022-07-21",
+                                    "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Todo Item",
+                "description": "指定したIDのTodoリストを1件削除します",
+                "operationId": "delete-todo-by-id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoItem"
+                                },
+                                "example": {
+                                    "id": 0,
+                                    "title": "string",
+                                    "task": "string",
+                                    "status": "string",
+                                    "duedate": "2022-07-21",
+                                    "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "summary": "List All Todo Item",
+                "description": "登録されているTodoリストを取得します",
+                "operationId": "list-all-todo-item",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoList"
+                                },
+                                "example": [
+                                    {
+                                        "id": 0,
+                                        "title": "string",
+                                        "task": "string",
+                                        "status": "string",
+                                        "duedate": "2022-07-21",
+                                        "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "title": "string",
+                                        "task": "string",
+                                        "status": "string",
+                                        "duedate": "2022-07-21",
+                                        "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "string",
+                                        "task": "string",
+                                        "status": "string",
+                                        "duedate": "2022-07-21",
+                                        "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create Todo Item",
+                "description": "新しいTodoリストを1件登録します",
+                "operationId": "create-todo-item",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoItem"
+                            },
+                            "example": {
+                                "id": 0,
+                                "title": "string",
+                                "task": "string",
+                                "status": "string",
+                                "duedate": "2022-07-21",
+                                "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Todo created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TodoItem"
+                                },
+                                "example": {
+                                    "id": 0,
+                                    "title": "string",
+                                    "task": "string",
+                                    "status": "string",
+                                    "duedate": "2022-07-21",
+                                    "updatedOn": "2022-07-21T17:32:28.0000000+00:00"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TodoItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "task": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "duedate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "updatedOn": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "TodoList": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/TodoItem"
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}
