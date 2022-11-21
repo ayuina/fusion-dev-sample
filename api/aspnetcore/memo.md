@@ -12,47 +12,6 @@ dotnet add package NSwag.AspNetCore
 
 - [NSwag と ASP.NET Core の概要](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/getting-started-with-nswag?view=aspnetcore-6.0&tabs=visual-studio)
 
-```powershell
-# install from  winget
-winget install --id RicoSuter.NSwagStudio --version 13.16.1.0 
-
-# create controller from open api spec file
-& 'C:\Program Files (x86)\Rico Suter\NSwagStudio\nswag.cmd' openapi2cscontroller `
-    /input:..\..\todo-api-spec.json `
-    /output:.\FusionDev.Samples.TodoApi\Controllers\TodoController.cs `
-    /namespace:FusionDev.Samples.TodoApi.Controllers `
-    /classname:Todo
-```
-
-## build for app service
-
-dotnet publish -o ../publish/default 
-Compress-Archive -Path ..\publish\default\* ..\publish\default.zip
-
-## build for linux vm
-dotnet publish -o ../publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
-copy to linux vm
-
-## run on linux
-
-```bash
-chmod 744 ./FusionDev.Samples.TodoApi 
-sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi 
-export ASPNETCORE_URLS=http://*:80
-export ASPNETCORE_ENVIRONMENT=Development
-
-  "ApplicationInsights": {
-    "ConnectionString": "Copy connection string from Application Insights Resource Overview"
-  }
-  
-./FusionDev.Samples.TodoApi 
-```
-
-https://swimburger.net/blog/dotnet/how-to-run-aspnet-core-as-a-service-on-linux
-
-
-## Generate Api Controller with nswag command line
-
 ```bash
 npm install nswag -g
 
@@ -87,8 +46,44 @@ nswag openapi2cscontroller `
     /ControllerBaseClass:"Microsoft.AspNetCore.Mvc.ControllerBase" `
     /ControllerStyle:partial `
     /ResponseArrayType:IEnumerable 
-
 ```
+
+## build for app service
+
+```powershell
+dotnet publish -o ../publish/default 
+Compress-Archive -Path ..\publish\default\* ..\publish\default.zip
+```
+
+## build for linux vm
+
+```powershell
+dotnet publish -o ../publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
+```
+
+copy to linux vm
+
+## run on linux
+
+```bash
+chmod 744 ./FusionDev.Samples.TodoApi 
+sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi 
+export ASPNETCORE_URLS=http://*:80
+export ASPNETCORE_ENVIRONMENT=Development
+
+  "ApplicationInsights": {
+    "ConnectionString": "Copy connection string from Application Insights Resource Overview"
+  }
+  
+./FusionDev.Samples.TodoApi 
+```
+
+https://swimburger.net/blog/dotnet/how-to-run-aspnet-core-as-a-service-on-linux
+
+
+## Generate Api Controller with nswag command line
+
+
 ### nswag options
 
 Command: openapi2cscontroller
