@@ -25,7 +25,7 @@
                 "name": "Requests",
                 "aggregationType": "sum",
                 "resourceTagFilter": [
-                  "tag1"
+                  "amamonitor"
                 ],
                 "resourceType": "Microsoft.Web/sites",
                 "namespace": "Microsoft.Web/sites"

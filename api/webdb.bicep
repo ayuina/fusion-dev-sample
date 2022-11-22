@@ -65,6 +65,9 @@ resource web 'Microsoft.Web/sites@2022-03-01' = {
       use32BitWorkerProcess: false
     }
   }
+  tags: {
+    amamonitor: 'target'
+  }
 }
 
 resource metadata 'Microsoft.Web/sites/config@2022-03-01' = {
