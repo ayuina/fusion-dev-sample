@@ -4,6 +4,7 @@ param loganaWorkspaceId string
 param adminName string = prefix
 @secure()
 param adminSqlPassword string
+param runfromPackageUrl string
 
 var appSvcName = '${prefix}-web'
 var appSvcPlanName = '${prefix}-asp'
@@ -78,6 +79,7 @@ resource appsettings 'Microsoft.Web/sites/config@2022-03-01' = {
   name: 'appsettings'
   parent: web
   properties: {
+    WEBSITE_RUN_FROM_PACKAGE: runfromPackageUrl
     APPINSIGHTS_INSTRUMENTATIONKEY: appinsights.properties.InstrumentationKey
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights.properties.ConnectionString
     ApplicationInsightsAgent_EXTENSION_VERSION: '~3'

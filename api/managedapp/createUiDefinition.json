@@ -27,6 +27,16 @@
               "visible": true
             },
             {
+              "name": "runfromPackageUrl",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Url of application package",
+              "defaultValue": "https://hogehoge/app.zip",
+              "constraints" : {
+                "required": true
+              },
+              "visible": true
+            },
+            {
               "name": "adminPassword",
               "type": "Microsoft.Common.PasswordBox",
               "label": {
@@ -43,7 +53,8 @@
       "outputs": {
         "region": "[location()]",
         "prefix": "[steps('webdbConfig').prefix]",
-        "adminSqlPassword": "[steps('webdbConfig').adminPassword]"
+        "adminSqlPassword": "[steps('webdbConfig').adminPassword]",
+        "appPackUrl": "[steps('webdbConfig').runfromPackageUrl]"
       }
     }
   }

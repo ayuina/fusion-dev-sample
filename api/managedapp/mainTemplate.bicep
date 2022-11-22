@@ -3,6 +3,7 @@ param prefix string = 'ayuina1121'
 param region string = 'japaneast'
 @secure()
 param adminSqlPassword string
+param appPackUrl string
 
 module webdb '../webdb.bicep' = {
   name: 'webdb'
@@ -12,6 +13,7 @@ module webdb '../webdb.bicep' = {
     adminName: prefix
     adminSqlPassword: adminSqlPassword
     loganaWorkspaceId: ''
+    runfromPackageUrl: appPackUrl
   }
 }
 
