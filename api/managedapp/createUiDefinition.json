@@ -30,7 +30,7 @@
               "name": "runfromPackageUrl",
               "type": "Microsoft.Common.TextBox",
               "label": "Url of application package",
-              "defaultValue": "https://hogehoge/app.zip",
+              "defaultValue": "https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/webapp.zip",
               "constraints" : {
                 "required": true
               },
