@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+      "basics": [
+        {}
+      ],
+      "steps": [
+        {
+          "name": "webdbConfig",
+          "label": "Configure",
+          "subLabel": {
+            "preValidation": "Configure the infrastructure settings",
+            "postValidation": "Done"
+          },
+          "bladeTitle": "Configure service",
+          "elements": [
+            {
+              "name": "prefix",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Prefix of each service name",
+              "defaultValue": "alias",
+              "constraints" : {
+                "required": true
+              },
+              "visible": true
+            },
+            {
+              "name": "adminPassword",
+              "type": "Microsoft.Common.PasswordBox",
+              "label": {
+                "password": "Password of SQL Database",
+                "confirmPassword": "Confirm password"
+              },
+              "constraints" : {
+                "required": true
+              },
+              "visible": true
+            }
+          ]
+        }],
+      "outputs": {
+        "region": "[location()]",
+        "prefix": "[steps('webdbConfig').prefix]",
+        "adminSqlPassword": "[steps('webdbConfig').adminPassword]"
+      }
+    }
+  }

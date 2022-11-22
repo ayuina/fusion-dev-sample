@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/viewdefinition/0.0.1-preview/ViewDefinition.json#",
+  "contentVersion": "0.0.0.1",
+  "views": [
+    {
+      "kind": "Overview",
+      "properties": {
+        "header": "Thank you for trying Ayuina's Azure Managed Application Samle !!!",
+        "description": "This managed application is including Azure App serivce, SQL Database, etc....",
+        "commands": [
+        ]
+      }
+    },
+    {
+      "kind": "Metrics",
+      "properties": {
+        "displayName": "This is my metrics view",
+        "version": "1.0.0",
+        "charts": [
+          {
+            "displayName": "Sample chart",
+            "chartType": "Line",
+            "metrics": [
+              {
+                "name": "Requests",
+                "aggregationType": "sum",
+                "resourceTagFilter": [
+                  "tag1"
+                ],
+                "resourceType": "Microsoft.Web/sites",
+                "namespace": "Microsoft.Web/sites"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
