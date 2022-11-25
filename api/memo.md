@@ -59,6 +59,7 @@ Compress-Archive -Path ..\publish\default\* ..\publish\default.zip
 
 ```powershell
 dotnet publish -o ../publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
+tar -zcvf ../publish/linux-x64.tar.gz ../publish/linux-x64/*
 ```
 
 copy to linux vm
