@@ -1,17 +1,22 @@
-param prefix string = 'ayuina1125c'
+param prefix string = 'ayuina1125f'
 param region string = 'japaneast'
+param loganaWorkspaceId string = ''
 param adminName string = prefix
 @secure()
 param adminPassword string
+param setupScriptUri string = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/setup-api.sh'
 
 var vnetName = '${prefix}-vnet'
 var vnetRange = '10.99.99.0/24'
 var vmSubnetName = 'default'
-var vmSubnetRange = '10.99.99.0/24'
+var vmSubnetRange = '10.99.99.0/26'
 
 var vmName = '${prefix}-vm'
 var nicName = '${vmName}-nic'
 var pipName = '${vmName}-pip'
+
+var logAnalyticsName = '${prefix}-laws'
+var appInsightsName = '${vmName}-ai'
 
 resource vmSubnetNsg 'Microsoft.Network/networkSecurityGroups@2022-05-01' ={
   name: '${vnetName}-${vmSubnetName}-nsg'
@@ -139,9 +144,42 @@ resource scriptExt 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     protectedSettings: { 
-      commandToExecute : ''
+      fileUris: [setupScriptUri]
+      commandToExecute : 'sh setup-api.sh ${appinsights.properties.ConnectionString} > /tmp/setup.log '
     }
   }
 }
 
-output vmHost string = pip.properties.dnsSettings.fqdn
+resource logAnalyticsNew 'Microsoft.OperationalInsights/workspaces@2022-10-01' = if(empty(loganaWorkspaceId)) {
+  name: logAnalyticsName
+  location: region
+  properties:{
+    sku:{
+      name: 'PerGB2018'
+    }
+    retentionInDays: 30
+    features: {
+      enableLogAccessUsingOnlyResourcePermissions: true
+    }
+    workspaceCapping: {
+      dailyQuotaGb: -1
+    }
+    publicNetworkAccessForIngestion: 'Enabled'
+    publicNetworkAccessForQuery: 'Enabled'
+  }
+}
+
+resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: appInsightsName
+  location: region
+  kind: 'web'
+  properties:{
+    Application_Type: 'web'
+    WorkspaceResourceId: (empty(loganaWorkspaceId) ? logAnalyticsNew.id : loganaWorkspaceId)
+    publicNetworkAccessForIngestion: 'Enabled'
+    publicNetworkAccessForQuery: 'Enabled'
+  }
+}
+
+
+output vmHost string = 'ssh ${adminName}@${pip.properties.dnsSettings.fqdn}'
