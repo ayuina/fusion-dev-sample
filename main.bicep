@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 
-param prefix string = 'fd1126'
+param prefix string = 'fd1126b'
 param region string = 'japaneast'
 
 param adminName string = prefix
@@ -9,7 +9,8 @@ param adminPassword string
 param deploymentId string = '${dateTimeToEpoch(utcNow())}'
 
 var apppackUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/webapp.zip'
-var appsetupUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/setup-api.sh'
+var linuxApppackUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/linux-x64.tar.gz'
+var deployOnprem = true
 
 resource apimrg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: '${prefix}-apim-rg'
@@ -32,6 +33,7 @@ module apim './apimanagement/apim.bicep' = {
     prefix: prefix
     region: region
     apimSubnetId: apimBase.outputs.apimSubnetId
+    logAnalyticsId: apimBase.outputs.logAnalyticsWorkspaceId
   }
 }
 
@@ -58,7 +60,7 @@ resource todoOnpremRg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: region
 }
 
-module todoOnprem './todo-api/onprevm.bicep' = {
+module todoOnprem './todo-api/onprevm.bicep' = if(deployOnprem){
   name: 'todo-onprem-${deploymentId}'
   scope: todoOnpremRg
   params: {
@@ -67,7 +69,7 @@ module todoOnprem './todo-api/onprevm.bicep' = {
     adminName: adminName
     adminPassword: adminPassword
     loganaWorkspaceId: apimBase.outputs.logAnalyticsWorkspaceId
-    setupScriptUri: appsetupUrl
+    linuxappPackUrl: linuxApppackUrl
   }
 }
 

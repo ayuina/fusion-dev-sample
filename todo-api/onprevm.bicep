@@ -4,7 +4,7 @@ param loganaWorkspaceId string = ''
 param adminName string = prefix
 @secure()
 param adminPassword string
-param setupScriptUri string = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/setup-api.sh'
+param linuxappPackUrl string = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/linux-x64.tar.gz'
 
 var vnetName = '${prefix}-vnet'
 var vnetRange = '10.99.99.0/24'
@@ -14,6 +14,19 @@ var vmSubnetRange = '10.99.99.0/26'
 var vmName = '${prefix}-vm'
 var nicName = '${vmName}-nic'
 var pipName = '${vmName}-pip'
+
+var commandLines = [
+  'wget ${linuxappPackUrl}'
+  ' && tar -zxvf ./linux-x64.tar.gz -C /tmp'
+  ' && cd /tmp/linux-x64'
+  ' && chmod 744 ./FusionDev.Samples.TodoApi'
+  ' && sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi'
+  ' && export ASPNETCORE_URLS=http://*:80'
+  ' && export ASPNETCORE_ENVIRONMENT=Development'
+  ' && export ApplicationInsights__ConnectionString={0}'
+  ' && nohup ./FusionDev.Samples.TodoApi &'
+]
+var commands = reduce(commandLines, '', (a,b) => '${a} ${b} ')
 
 var logAnalyticsName = '${prefix}-laws'
 var appInsightsName = '${vmName}-ai'
@@ -144,8 +157,7 @@ resource scriptExt 'Microsoft.Compute/virtualMachines/extensions@2022-08-01' = {
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     protectedSettings: { 
-      fileUris: [setupScriptUri]
-      commandToExecute : 'sh setup-api.sh ${appinsights.properties.ConnectionString} > /tmp/setup.log '
+      commandToExecute : format(commands, appinsights.properties.ConnectionString)
     }
   }
 }
@@ -183,3 +195,4 @@ resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
 
 
 output vmHost string = 'ssh ${adminName}@${pip.properties.dnsSettings.fqdn}'
+output vsSetup string = format(commands, appinsights.properties.ConnectionString)
