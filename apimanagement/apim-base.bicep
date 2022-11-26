@@ -1,17 +1,14 @@
-param prefix string
-param region string
-@secure()
-param adminPassword string
+param prefix string = 'fd1126'
+param region string = 'japaneast'
 
-var logAnalyticsName = '${prefix}-laws'
-var keyvaultName = '${prefix}-kv'
+var apiManagementName = '${prefix}-apim'
+var logAnalyticsName = '${apiManagementName}-laws'
 
-var vnetName = '${prefix}-vnet'
+var vnetName = '${apiManagementName}-vnet'
 var vnetRange = '10.1.0.0/16'
 var apimSubnetName = 'apimSubnet'
 var apimSubnetRange = '10.1.0.0/24'
-var apiIaaSSubnetName = 'iaasSubnet'
-var apiIaaSSubnetRange = '10.1.1.0/24'
+
 
 var apimNetworkRequirements = [
   { direction: 'Inbound', priority:1000, access: 'Allow', name: 'ClientCallApi' 
@@ -74,41 +71,6 @@ resource secRules 'Microsoft.Network/networkSecurityGroups/securityRules@2022-05
   }
 }]
 
-resource apivmNsg 'Microsoft.Network/networkSecurityGroups@2022-05-01' ={
-  name: '${vnetName}-${apiIaaSSubnetName}-nsg'
-  location: region
-  properties: {
-    securityRules:[
-      {
-        name: 'AllowHttpFromVnet'
-        properties: {
-          access: 'Allow'
-          direction: 'Inbound'
-          priority: 1000
-          protocol: 'TCP'
-          sourceAddressPrefix: 'VirtualNetwork'
-          sourcePortRange: '*'
-          destinationAddressPrefix: '*'
-          destinationPortRanges: ['80', '443']
-        }
-      }
-      {
-        name: 'AllowSshFromInternet'
-        properties: {
-          access: 'Allow'
-          direction: 'Inbound'
-          priority: 1100
-          protocol: 'TCP'
-          sourceAddressPrefix: 'Internet'
-          sourcePortRange: '*'
-          destinationAddressPrefix: '*'
-          destinationPortRanges: ['22']
-        }
-      }
-    ]
-  }
-}
-
 resource vnet 'Microsoft.Network/virtualNetworks@2022-05-01' = {
   name: vnetName
   location: region
@@ -124,15 +86,13 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-05-01' = {
           networkSecurityGroup: { id: apimNsg.id }
         }
       }
-      {
-        name: apiIaaSSubnetName
-        properties:{
-          addressPrefix: apiIaaSSubnetRange
-          networkSecurityGroup: { id: apivmNsg.id }
-        }
-      }
     ]
   }
+}
+
+resource apimSubnet 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' existing = {
+  parent: vnet
+  name: apimSubnetName
 }
 
 resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
@@ -154,32 +114,6 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   }
 }
 
-resource akv 'Microsoft.KeyVault/vaults@2022-07-01' = {
-  name: keyvaultName
-  location: region
-  properties:{
-    sku:{
-      family: 'A'
-      name: 'standard'
-    }
-    tenantId: tenant().tenantId
-    enableSoftDelete: false
-    publicNetworkAccess: 'Enabled'
-    enabledForDeployment: true
-    enabledForTemplateDeployment: true
-    accessPolicies: []
-  }
-}
 
-resource secret1 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-  parent: akv
-  name: 'adminPassword'
-  properties:{
-    value: adminPassword
-  }
-}
-
-output logAnalyticsWorkspaceName string = logAnalyticsName
-output keyvaultName string = keyvaultName
-output apiIaasSubnetId string = filter(vnet.properties.subnets, s => s.name == apiIaaSSubnetName)[0].id
-output apimSubnetId string = filter(vnet.properties.subnets, s => s.name == apimSubnetName)[0].id
+output apimSubnetId string = apimSubnet.id
+output logAnalyticsWorkspaceId string = logAnalytics.id
