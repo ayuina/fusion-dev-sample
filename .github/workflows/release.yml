@@ -1,0 +1,50 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  srcdir : "./todo-api/FusionDev.Samples.TodoApi"
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: install-dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: ${{ env.srcdir }}/../global.json
+      - name: build
+        shell: pwsh
+        working-directory: ${{ env.srcdir }}
+        run: |
+          dotnet restore
+          dotnet build
+
+      - name: publish-default
+        shell: pwsh
+        working-directory: ${{ env.srcdir }}
+        run: |
+          dotnet publish -o ./publish/default
+          Compress-Archive -Path ./publish/default/* ./publish/default.zip
+      - name: publish artifact for windows
+        uses: actions/upload-artifact@v3
+        with:
+          name: todoapi-default
+          path: ${{ env.srcdir }}/publish/default.zip
+
+      - name: publish-linux-x64
+        shell: pwsh
+        working-directory: ${{ env.srcdir }}
+        run: |
+          dotnet publish -o ./publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
+          tar -zcvf ./publish/linux-x64.tar.gz ./publish/linux-x64/*
+      - name: publish artifact for linux
+        uses: actions/upload-artifact@v3
+        with:
+          name: todoapi-linux-x64
+          path: ${{ env.srcdir }}/publish/linux-x64.tar.gz
+
