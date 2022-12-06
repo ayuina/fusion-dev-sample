@@ -23,7 +23,7 @@ var commandLines = [
   ' && sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi'
   ' && export ASPNETCORE_URLS=http://*:80'
   ' && export ASPNETCORE_ENVIRONMENT=Development'
-  ' && export ApplicationInsights__ConnectionString={0}'
+  ' && export ApplicationInsights__ConnectionString=\'{0}\''
   ' && nohup ./FusionDev.Samples.TodoApi &'
 ]
 var commands = reduce(commandLines, '', (a,b) => '${a} ${b} ')

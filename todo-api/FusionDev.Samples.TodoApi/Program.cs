@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//appinsights
+builder.Services.AddApplicationInsightsTelemetry();
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<ITodoController, TodoControllerImpl2>();
-
-
 if(builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<TodoContext>( opt => opt.UseInMemoryDatabase("TodoList"));
@@ -19,6 +20,7 @@ else
     builder.Services.AddDbContext<TodoContext>( opt => opt.UseSqlServer(constr));
 }
 
+//swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocument();
 
