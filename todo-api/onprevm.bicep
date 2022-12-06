@@ -25,7 +25,9 @@ var commandLines = [
   ' && export ASPNETCORE_URLS=http://*:80'
   ' && export ASPNETCORE_ENVIRONMENT=Development'
   ' && export ApplicationInsights__ConnectionString=\'{0}\''
-  ' && nohup ./FusionDev.Samples.TodoApi &'
+  ' && cp mywebapp.service /etc/systemd/system/mywebapp.service'
+  ' && systemctl start mywebapp.service'
+  ' && systemctl enable mywebapp.service'
 ]
 var commands = reduce(commandLines, '', (a,b) => '${a} ${b} ')
 
