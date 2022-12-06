@@ -8,7 +8,6 @@ ExecStart=/tmp/linux-x64/FusionDev.Samples.TodoApi
 Restart=always
 RestartSec=10
 SyslogIdentifier=dotnet-mmyapp
-User=www-data
 Environment=ASPNETCORE_ENVIRONMENT=Development
 Environment=ASPNETCORE_URLS=http://*:80
 
