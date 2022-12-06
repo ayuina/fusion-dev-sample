@@ -17,9 +17,9 @@ var pipName = '${vmName}-pip'
 
 var commandLines = [
   'wget ${linuxappPackUrl}'
-  ' && mkdir /tmp/linux-x64'
-  ' && tar -zxvf ./linux-x64.tar.gz -C /tmp/linux-x64'
-  ' && cd /tmp/linux-x64'
+  ' && mkdir /var/mywebapp'
+  ' && tar -zxvf ./linux-x64.tar.gz -C /var/mywebapp'
+  ' && cd /var/mywebapp'
   ' && chmod 744 ./FusionDev.Samples.TodoApi'
   ' && sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi'
   ' && export ASPNETCORE_URLS=http://*:80'

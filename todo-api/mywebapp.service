@@ -3,8 +3,8 @@ Description=My App Description
 After=network.target
 
 [Service]
-WorkingDirectory=/tmp/linux-x64
-ExecStart=/tmp/linux-x64/FusionDev.Samples.TodoApi
+WorkingDirectory=/var/mywebapp
+ExecStart=/var/mywebapp/FusionDev.Samples.TodoApi
 Restart=always
 RestartSec=10
 SyslogIdentifier=dotnet-mmyapp

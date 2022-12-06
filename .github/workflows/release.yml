@@ -20,7 +20,7 @@ jobs:
       - name: Ensure dotnet SDK installed
         uses: actions/setup-dotnet@v3
         with:
-          global-json-file: ${{ env.srcdir}}/global.json
+          global-json-file: ${{ env.srcdir }}/global.json
 
       - name: Build applicaiton
         shell: pwsh
