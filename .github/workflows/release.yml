@@ -60,6 +60,6 @@ jobs:
             ./todo-api/publish/default.zip
             ./todo-api/publish/linux-x64.tar.gz
             ./todo-api/webdb.bicep
-            ./todo-api/onprem.bicep
+            ./todo-api/onprevm.bicep
 
 
