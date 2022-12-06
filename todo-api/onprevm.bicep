@@ -17,7 +17,8 @@ var pipName = '${vmName}-pip'
 
 var commandLines = [
   'wget ${linuxappPackUrl}'
-  ' && tar -zxvf ./linux-x64.tar.gz -C /tmp'
+  ' && mkdir /tmp/linux-x64'
+  ' && tar -zxvf ./linux-x64.tar.gz -C /tmp/linux-x64'
   ' && cd /tmp/linux-x64'
   ' && chmod 744 ./FusionDev.Samples.TodoApi'
   ' && sudo setcap CAP_NET_BIND_SERVICE=+eip ./FusionDev.Samples.TodoApi'
