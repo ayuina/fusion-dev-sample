@@ -46,7 +46,7 @@ jobs:
       - name: Publish pipeline artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-${{ github.ref }}
+          name: app-artifacts
           path: ./todo-api/publish/
 
       - name: Create release
