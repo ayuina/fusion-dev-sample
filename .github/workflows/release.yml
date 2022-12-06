@@ -2,8 +2,8 @@ name: release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - "main"
 
 env:
   srcdir : "./todo-api/FusionDev.Samples.TodoApi"
