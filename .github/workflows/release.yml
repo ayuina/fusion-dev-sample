@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "main"
+    tags:
+      - "app-v*"
 
 env:
   srcdir : "./todo-api/FusionDev.Samples.TodoApi"
@@ -44,8 +46,17 @@ jobs:
       - name: Publish pipeline artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-{{ $github.ref }}
+          name: app-${{ github.ref }}
           path: ./todo-api/publish/
 
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+          prerelease: true
+          files: |
+            ./todo-api/publish/default.zip
+            ./todo-api/publish/linux-x64.tar.gz
 
 
