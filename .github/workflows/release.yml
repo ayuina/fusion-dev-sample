@@ -41,7 +41,8 @@ jobs:
         working-directory: ${{ env.srcdir }}
         run: |
           dotnet publish -o ../publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
-          tar -zcvf ../publish/linux-x64.tar.gz ../publish/linux-x64/*
+          cd ../publish/linux-x64
+          tar -zcvf ../linux-x64.tar.gz *
 
       - name: Publish pipeline artifact
         uses: actions/upload-artifact@v3
@@ -58,5 +59,7 @@ jobs:
           files: |
             ./todo-api/publish/default.zip
             ./todo-api/publish/linux-x64.tar.gz
+            ./todo-api/webdb.bicep
+            ./todo-api/onprem.bicep
 
 

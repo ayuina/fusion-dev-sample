@@ -1,6 +1,6 @@
-param prefix string = 'ayuina1121'
+param prefix string = 'ayuina'
 param region string = 'japaneast'
-param loganaWorkspaceId string
+param loganaWorkspaceId string = ''
 param adminName string = prefix
 @secure()
 param adminSqlPassword string

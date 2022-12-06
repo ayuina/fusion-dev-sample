@@ -1,10 +1,10 @@
-param prefix string = 'ayuina1125f'
+param prefix string = 'ayuina'
 param region string = 'japaneast'
 param loganaWorkspaceId string = ''
 param adminName string = prefix
 @secure()
 param adminPassword string
-param linuxappPackUrl string = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/linux-x64.tar.gz'
+param linuxappPackUrl string
 
 var vnetName = '${prefix}-vnet'
 var vnetRange = '10.99.99.0/24'
