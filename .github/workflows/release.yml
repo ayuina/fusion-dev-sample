@@ -4,49 +4,48 @@ on:
   push:
     branches:
       - "main"
-    tags:
-      - "app-v*"
 
 env:
   srcdir : "./todo-api/FusionDev.Samples.TodoApi"
 
 jobs:
-  build-and-release:
+  build-and-release:  
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: install-dotnet
+      - name: Checkout Source
+        uses: actions/checkout@v1
+
+      - name: Ensure dotnet SDK installed
         uses: actions/setup-dotnet@v3
         with:
-          global-json-file: ${{ env.srcdir }}/../global.json
-      - name: build
+          global-json-file: ${{ env.srcdir}}/global.json
+
+      - name: Build applicaiton
         shell: pwsh
         working-directory: ${{ env.srcdir }}
         run: |
           dotnet restore
           dotnet build
 
-      - name: publish-default
+      - name: Publish dotnet applicaiton
         shell: pwsh
         working-directory: ${{ env.srcdir }}
         run: |
           dotnet publish -o ../publish/default
           Compress-Archive -Path ../publish/default/* ../publish/default.zip
-      - name: publish artifact for windows
-        uses: actions/upload-artifact@v3
-        with:
-          name: todoapi-default
-          path: ${{ env.srcdir }}/../publish/default/*
 
-      - name: publish-linux-x64
+      - name: Publish dotnet applicaiton for Linux 
         shell: pwsh
         working-directory: ${{ env.srcdir }}
         run: |
           dotnet publish -o ../publish/linux-x64 --self-contained -r linux-x64 /p:PublishSingleFile=true
           tar -zcvf ../publish/linux-x64.tar.gz ../publish/linux-x64/*
-      - name: publish artifact for linux
+
+      - name: Publish pipeline artifact
         uses: actions/upload-artifact@v3
         with:
-          name: todoapi-linux-x64
-          path: ${{ env.srcdir }}/../publish/linux-x64/*
+          name: app-{{ $github.ref }}
+          path: ./todo-api/publish/
+
+
 
