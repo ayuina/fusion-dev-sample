@@ -17,7 +17,7 @@ npm install nswag -g
 
 # for linux
 nswag openapi2cscontroller \
-    /input:../../../todo-api-spec.json \
+    /input:../../todo-api-spec.json \
     /classname:Todo \
     /namespace:FusionDev.Samples.TodoApi.Controllers \
     /output:Controllers/TodoController.cs \
