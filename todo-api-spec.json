@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://fd1107-apim.azure-api.net/todos/v1"
+            "url": "https://fdsample-apim.azure-api.net/todo/v1"
         }
     ],
     "paths": {
@@ -225,6 +225,12 @@
     },
     "components": {
         "schemas": {
+            "TodoList": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/TodoItem"
+                }
+            },
             "TodoItem": {
                 "type": "object",
                 "properties": {
@@ -242,19 +248,14 @@
                     },
                     "duedate": {
                         "type": "string",
-                        "format": "date"
+                        "format": "date-time"
                     },
                     "updatedOn": {
                         "type": "string",
                         "format": "date-time"
                     }
-                }
-            },
-            "TodoList": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/TodoItem"
-                }
+                },
+                "additionalProperties": false
             }
         },
         "securitySchemes": {

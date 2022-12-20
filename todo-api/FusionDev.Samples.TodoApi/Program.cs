@@ -32,8 +32,8 @@ using(var scope = app.Services.CreateScope())
     var tdc = scope.ServiceProvider.GetService<TodoContext>();
     if(tdc != null)
     {
-        tdc.Database.EnsureCreated();
-        tdc.Init();
+        if(tdc.Database.EnsureCreated())
+            tdc.Init();
     }
 }
 
