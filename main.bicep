@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 
-param prefix string = 'fd1126b'
+param prefix string = 'fdsample'
 param region string = 'japaneast'
 
 param adminName string = prefix
@@ -8,8 +8,8 @@ param adminName string = prefix
 param adminPassword string
 param deploymentId string = '${dateTimeToEpoch(utcNow())}'
 
-var apppackUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/webapp.zip'
-var linuxApppackUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v1/linux-x64.tar.gz'
+var apppackUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v4/default.zip'
+var linuxApppackUrl = 'https://github.com/ayuina/fusion-dev-sample/releases/download/app-v4/linux-x64.tar.gz'
 var deployOnprem = true
 
 resource apimrg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
@@ -17,23 +17,12 @@ resource apimrg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: region
 }
 
-module apimBase './apimanagement/apim-base.bicep' = {
-  name: 'apim-base-${deploymentId}'
-  scope: apimrg
-  params: {
-    prefix: prefix
-    region: region
-  }
-}
-
 module apim './apimanagement/apim.bicep' = {
-  name: 'apim-core-${deploymentId}'
+  name: 'apim-${deploymentId}'
   scope: apimrg
   params: {
     prefix: prefix
     region: region
-    apimSubnetId: apimBase.outputs.apimSubnetId
-    logAnalyticsId: apimBase.outputs.logAnalyticsWorkspaceId
   }
 }
 
@@ -50,7 +39,7 @@ module todoPaas './todo-api/webdb.bicep' = {
     region: region
     adminName: adminName
     adminSqlPassword: adminPassword
-    loganaWorkspaceId: apimBase.outputs.logAnalyticsWorkspaceId
+    loganaWorkspaceId: apim.outputs.logAnalyticsWorkspaceId
     runfromPackageUrl: apppackUrl
   }
 }
@@ -68,7 +57,7 @@ module todoOnprem './todo-api/onprevm.bicep' = if(deployOnprem){
     region: region
     adminName: adminName
     adminPassword: adminPassword
-    loganaWorkspaceId: apimBase.outputs.logAnalyticsWorkspaceId
+    loganaWorkspaceId: apim.outputs.logAnalyticsWorkspaceId
     linuxappPackUrl: linuxApppackUrl
   }
 }
