@@ -15,7 +15,6 @@ namespace FusionDev.Samples.TodoApi.Controllers
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoItem>().Ignore(c => c.AdditionalProperties);
             modelBuilder.Entity<TodoItem>().Property("Id").ValueGeneratedNever();
         }
     }
