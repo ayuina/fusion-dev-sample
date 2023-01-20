@@ -4,7 +4,7 @@
 
 このモジュールでは以下の内容を学習します。
 
-- Azure API Management 開発者ポータルを利用して必要な API 情報を入手する
+- 市民開発者自身で Azure API Management 開発者ポータルを利用して必要な API 情報を入手する
 
 
 ![](./images/mod02-overview.png)
