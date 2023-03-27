@@ -9,7 +9,8 @@
 - [Section 06 : キャンバスアプリの開発](./section06.md)
 - [Section 07 : バックエンド API の実装](./section07.md)
 - [Section 08 : API リビジョンの更新](./section08.md)
-- [Section 09 : 利用者にアプリを共有](./section09.md)
-- [Section 10 : アプリ利用状況の監視](./section10.md)
+- [Section 09 : 正式版 API によるテスト](./section09.md)
+- [Section 10 : キャンバスアプリの共有](./section10.md)
+
 ---
 
