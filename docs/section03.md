@@ -27,7 +27,6 @@
 - Display Name 欄に `Todo API ${Prefix}` を入力
 - Name 欄が自動的に `todo-api-${prefix}` と入力される
 - Web service URL 欄は空のまま入力しない
-    - 後程 API を実装してから入力します
 - URL scheme 欄は `HTTPS` を選択
 - API URL suffix 欄に `todo-api-${prefix}` を入力
 - Tags 欄は空のまま入力しない
