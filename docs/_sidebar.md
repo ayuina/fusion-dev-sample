@@ -11,6 +11,7 @@
 - [Section 08 : API リビジョンの更新](./section08.md)
 - [Section 09 : 正式版 API によるテスト](./section09.md)
 - [Section 10 : キャンバスアプリの共有](./section10.md)
+- [Section 11 : アプリと API の利用状況の監視](./section11.md)
 
 ---
 
