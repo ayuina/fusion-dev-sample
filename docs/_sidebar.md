@@ -12,6 +12,9 @@
 - [Section 09 : 正式版 API によるテスト](./section09.md)
 - [Section 10 : キャンバスアプリの共有](./section10.md)
 - [Section 11 : アプリと API の利用状況の監視](./section11.md)
-
+- [Section 12 : 開発者ポータルの有効化](./section12.md)
+- [Section 13 : 開発者ポータルの利用](./section13.md)
 ---
+- [Section 20 : API のメジャーバージョンアップ](./section20.md)
+
 
