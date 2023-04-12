@@ -1,5 +1,7 @@
 # Fusion 開発ハンズオン概要
 
+
+
 ## ハンズオンで構築する内容
 
 本ハンズオンでは Power Apps キャンバスアプリから Azure API Managment を介して、Azure App Service 上でホストされたカスタム API を呼び出すアプリケーションを構築します。
