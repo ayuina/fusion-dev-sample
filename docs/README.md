@@ -1,7 +1,7 @@
 # Fusion 開発ハンズオン概要
 
 本ハンズオンは [こちらの Workshop](<PAxAzure Fusion Development v0.2.22.1216.pdf> ':ignore') の Module 3 を元に作成されています。
-手順書の PDF 版は [こちら](handson.pdf ':ignore') をご利用ください。
+[PDF 版の手順書](handson.pdf ':ignore') もご利用ください。
 
 ## ハンズオンで構築する内容
 
