@@ -1,6 +1,6 @@
 # Section 03 : Todo API の定義
 
-ここでは共有の　API Management に対して、ハンズオン参加者が個別に API を定義していきます。
+!> 以降では共有の　API Management に対して、ハンズオン参加者が個別に API を定義していきます。
 他の参加者が作成中の API を壊さないように注意してください。
 
 ## API Management の確認
@@ -35,7 +35,7 @@
 - Version this API ? 欄を `チェック` する
 - Version identifier 欄に `v1` を入力
 - Versioning scheme 欄は `Path` を選択
-- Usage example 欄が `https://apim-fusiondev-shared-0324.azure-api.net/todo-api-${prefix}/v1` となっていることを確認
+- Usage example 欄が `https://apim-fusiondev-shared-MMDD.azure-api.net/todo-api-${prefix}/v1` となっていることを確認
 - `Create` を選択
 
 ![](./images/section03-create-http-api.png)

@@ -7,7 +7,7 @@
 
 ## API 仕様の変更
 
-[Section 01](./section01.md)で設計した API 仕様は例えば [こちら](./todo-api-spec.json) のようになります。
+[Section 01](./section01.md)で設計した API 仕様は例えば [こちら](/todo-api-spec.json ':ignore') のようになります。
 仕様が大きく変わりますので、メジャーバージョンを上げて新しいバージョンの API を公開すると良いでしょう。
 
 ## Todo API v2 の定義
